@@ -30,6 +30,58 @@ namespace BankProjekt
             }
         }
 
+        public static void FindKontenVonPrivateKunde(string input, Bank b)
+        {
+            try
+            {
+                foreach (Kunde kunde in b.Kunden)
+                {
+                    if (kunde.Konten != null && kunde.Konten.Count >= 0)
+                    {
+                        if (input.Equals(kunde.Kundennummer))
+                      
+                        {
+                            int ind = b.Kunden.FindIndex(x => x.Konten.Equals(input));
+                            Console.WriteLine("Index von PrivateKunden ->" + ind);
+                            Console.WriteLine(b.Kunden[ind].ToString());
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Konten ist nulllll");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception (ex.Message);
+            }
+        }
+
+
+
+        public static void DisplayKontenVonPrivateKunden(Bank b)
+        {
+            foreach (PrivateKunde item in b.Kunden)
+            {
+                try
+                {
+                    if (item.Konten != null && item.Konten.Count >= 0)
+                    {
+                        foreach (Konto konto in item.Konten)
+                        {
+                            Console.WriteLine("IBAN   -> " + konto.Iban + "  Kontostand    ->" + konto.KontoStand);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Konten ist null");
+                }
+
+            }
+        }
+
         public static void NeuesKontoZumKunde(Bank bank, Kunde kunde, Konto konto)
         {
 
@@ -53,9 +105,6 @@ namespace BankProjekt
                 else
                 {
                     throw new Exception("Konto Exception");
-
-                    //b.Kunden[ind].DisplayAllKonten();
-
                 }
             }
             else

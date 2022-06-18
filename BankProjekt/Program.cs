@@ -71,9 +71,9 @@ namespace BankProjekt
                                     b.Kunden[ind].Konten = new List<Konto>();
                                 }
                                 KontoManager.NeuesKontoZumKunde(b, b.Kunden[ind], konto);
+                                Console.WriteLine("Neues Konto, " + konto.Iban + " wurde für Kunde " + b.Kunden[ind].Kundennummer + " erstellt");
                             }
-                            Console.WriteLine("---");
-                            Console.WriteLine("74    b.Kunden[ind].DisplayAllKonten();     UNTEN     --->");
+
                         }
                         else
                         {
@@ -97,7 +97,7 @@ namespace BankProjekt
                             }
                             else
                             {
-                                Console.WriteLine("b.Kunden[ind]   ---->  " + b.Kunden[ind]);
+                                Console.WriteLine("Alle Konten von    ---->  " + b.Kunden[ind]);
                                 Console.WriteLine("98    b.Kunden[ind].DisplayAllKonten();     UNTEN     --->");
                                 b.Kunden[ind].DisplayAllKontenVonUser();
 
@@ -111,17 +111,38 @@ namespace BankProjekt
                         break;
 
                     case "5":
-                        string input = IO.ReadString("Um Konto zu sehen, bitte geben Sie Ihr Name : ");
+                        Console.WriteLine("Wähle eine Option:");
+                        Console.WriteLine("(1) Privatkunde");
+                        Console.WriteLine("(2) Firmenkunde");
 
-                        KontoManager.FindKontenVonPrivateKunde(input, b);
+                        switch (Console.ReadLine())
+                        {
+                            case "1":
+                                string input = IO.ReadString("Bitte geben Sie Ihr Nachname : ");
+                                KundeManager.DisplayPrivateKunde(input, b);
+                                break;
+                                
+                            case "2":
+                                input = IO.ReadString("Bitte geben Sie Ihr Firmenname : ");
+                                KundeManager.DisplayFirmenKunde(input, b);
+                                break;
 
+                            default:
+                                Console.WriteLine("Falsche Eingabe");
+                                break;
+                        }
                         IO.ReadString("weiter");
                         break;
 
 
                     case "6":
-                        Console.WriteLine("Kundennamen");
-                        //DisplayAllKundenNamen(b);
+                        string inputIban = IO.ReadString("Um Konto zu sehen, bitte geben Sie Ihre Ibannummer : ");
+                        Console.WriteLine("Kunde fdurch IBAN");
+                        foreach (Kunde kunde in b.Kunden)
+                        {
+                            KontoManager.FindEinKontoDurchIban(inputIban, kunde);
+                        }
+                        IO.ReadString("weiter");
                         break;
 
                     case "7":

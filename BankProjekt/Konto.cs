@@ -12,7 +12,7 @@ namespace BankProjekt
         private string iban = "DE";
         private double kontoStand;
 
-        public Konto(string iban, double kontoStand)
+        public Konto(Kunde kunde, string iban, double kontoStand)
         {
 
             this.iban = iban;
@@ -27,11 +27,13 @@ namespace BankProjekt
         public double KontoStand { get => kontoStand; set => kontoStand = value; }
 
 
-        public Konto KontoAnlegen(Bank b)
+        public Konto KontoAnlegen(Bank b, Kunde kunde)
         {
             var rand = new Random();
             int temp = rand.Next(10000000, 99999999);
-            return new Konto(Iban + b.Bankleitzahl + temp, IO.ReadDouble("Kontostand : "));
+            return new Konto(kunde, Iban + b.Bankleitzahl + temp, IO.ReadDouble("Kontostand : "));
         }
+
+        public override string ToString() => $"Iban : {Iban} -  Kontostand : {KontoStand}";
     }
 }

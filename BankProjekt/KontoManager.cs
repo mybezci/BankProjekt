@@ -30,11 +30,35 @@ namespace BankProjekt
             }
         }
 
-        public static void FindKontenVonPrivateKunde(string input, Bank b)
+        public static void FindEinKontoDurchIban(string iban, Kunde k)
         {
             try
             {
-                foreach (Kunde kunde in b.Kunden)
+                foreach (Konto konto in k.Konten)
+                {
+                    if (konto.Iban.Equals(iban))
+                    {
+                        Console.WriteLine(konto.ToString()); 
+                    }
+                    else
+                    {
+                        Console.WriteLine("Das Konto mit dieser Iban konnte nicht gefunden werden");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public static void FindKontenVonPrivateKunde(string input, Bank b, PrivateKunde pk)
+        {
+            try
+            {
+                foreach (PrivateKunde kunde in b.Kunden)
                 {
                     if (kunde.Konten != null && kunde.Konten.Count >= 0)
                     {
@@ -60,7 +84,7 @@ namespace BankProjekt
 
 
 
-        public static void DisplayKontenVonPrivateKunden(Bank b)
+        public static void DisplayKontenVonPrivateKunden(Bank b, PrivateKunde pk)
         {
             foreach (PrivateKunde item in b.Kunden)
             {
@@ -93,7 +117,7 @@ namespace BankProjekt
 
                 if (kontoanzahl >= 0 && kontoanzahl <= 10)
                 {
-                    konto = konto.KontoAnlegen(bank);
+                    konto = konto.KontoAnlegen(bank, kunde);
                     kunde.Konten.Add(konto);
 
                     Console.WriteLine("Konto angelegt");

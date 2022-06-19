@@ -17,8 +17,8 @@ namespace BankProjekt
 
         public Bank(string name, string bic, int bankleitzahl, Adresse adress, List<Kunde> kunden)
         {
-            this.name = name;
-            this.bic = bic;
+            this.name = name.Trim().ToUpper();
+            this.bic = bic.Trim().ToUpper();
             this.bankleitzahl = bankleitzahl;
             this.adress = adress;
             this.kunden = kunden;
@@ -45,6 +45,16 @@ namespace BankProjekt
 
         public void DisplayAllKunden()
         {
+            foreach (Kunde kunde in Kunden)
+            {
+                Console.WriteLine(kunde);
+            }
+        }
+
+
+        public void DisplayAllKundenNachKundennummer()
+        {
+            Kunden.Sort();
             foreach (Kunde kunde in Kunden)
             {
                 Console.WriteLine(kunde);

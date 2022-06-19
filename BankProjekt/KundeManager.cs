@@ -8,33 +8,127 @@ namespace BankProjekt
 {
     public static class KundeManager
     {
-        public static void DisplayPrivateKunde(string name, Bank b )
+
+        public static Kunde FindKundeDurchKundennummer(int kundennummer, Bank bank)
         {
-            foreach (PrivateKunde kunde in b.Kunden)
+
+            Kunde kunde = null;
+            try
             {
-                if (kunde.Nachname.Equals(name))
+                if (bank.Kunden != null && bank.Kunden.Count != 0)
                 {
-                    Console.WriteLine("Konten von " + kunde.Nachname);
-                    foreach (Konto konto in kunde.Konten)
+                    int ind = bank.Kunden.FindIndex(x => x.Kundennummer.Equals(kundennummer));
+
+                    if (ind < 0 || ind > bank.Kunden.Count - 1)
                     {
-                        Console.WriteLine(konto.ToString());
+                        kunde = null;
+                        Console.WriteLine("Kunde kann nicht gefunden werden!!!");
+                    }
+                    else
+                    {
+                        kunde = bank.Kunden[ind];
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Falsche Kundennummer");
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return kunde;
+        }
+
+        public static void DisplayKundeDurchIban(string inputIban, Bank b)
+        {
+            try
+            {
+                if (b.Kunden != null && b.Kunden.Count != 0)
+                {
+                    foreach (Kunde kunde in b.Kunden)
+                    {
+                        Console.WriteLine(KontoManager.FindEinKontoDurchIban(inputIban, kunde).ToString());
                     }
                 }
+                else
+                {
+                    Console.WriteLine("Kein Ergebnis");
+                }
+
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine("Kein Ergebnis"); ;
+            }
+        }
+
+        public static void DisplayPrivateKunde(string name, Bank b )
+        {
+            try
+            {
+                if (b.Kunden != null && b.Kunden.Count != 0)
+                {
+                    foreach (PrivateKunde kunde in b.Kunden)
+                    {
+                        if (kunde.Nachname.Equals(name.Trim().ToUpper()))
+                        {
+                            Console.WriteLine("Konten von " + kunde.Nachname);
+                            foreach (Konto konto in kunde.Konten)
+                            {
+                                Console.WriteLine(konto.ToString());
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Privatekunde wurde nicht gefunden!!");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Kein Ergebnis");
+                }
+
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Kein Ergebnis");
             }
         }
 
         public static void DisplayFirmenKunde(string name, Bank b)
         {
-            foreach (FirmenKunde kunde in b.Kunden)
+            try
             {
-                if (kunde.Firmenname.Equals(name))
+                if (b.Kunden != null && b.Kunden.Count != 0)
                 {
-                    Console.WriteLine("Konten von " + kunde.Firmenname);
-                    foreach (Konto konto in kunde.Konten)
+                    foreach (FirmenKunde kunde in b.Kunden)
                     {
-                        Console.WriteLine(konto.ToString());
+                        if (kunde.Firmenname.Equals(name.Trim().ToUpper()))
+                        {
+                            Console.WriteLine("Konten von " + kunde.Firmenname);
+                            foreach (Konto konto in kunde.Konten)
+                            {
+                                Console.WriteLine(konto.ToString());
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Firmenkunde wurde nicht gefunden!!");
+                        }
                     }
                 }
+                else
+                {
+                    Console.WriteLine("Kein Ergebnis");
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Kein Ergebnis");
             }
         }
 

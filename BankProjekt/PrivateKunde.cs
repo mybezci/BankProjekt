@@ -11,13 +11,13 @@ namespace BankProjekt
     {
         private string vorname;
         private string nachname;
-        private DateTime gebDatum;
+        private DateTime gebDatum = DateTime.Now;
 
         public PrivateKunde(int kundennummer, string vorname, string nachname, string telefonnummer, string email, DateTime gebDatum, Adresse adress) :
             base(kundennummer, telefonnummer, email, adress)
         {
-            this.vorname = vorname;
-            this.nachname = nachname;
+            this.vorname = vorname.Trim().ToUpper();
+            this.nachname = nachname.Trim().ToUpper();
             this.gebDatum = gebDatum;
         }
 
@@ -40,14 +40,18 @@ namespace BankProjekt
                 );
         }
 
-        public override string ToString() => $"Privatekunden: {Kundennummer} - {Nachname} {Vorname} ; " +
-            $"{Email} {Telefonnummer} {Adress.ToString()}";
+        public override string ToString() => $"Privatekunden: KN : {Kundennummer}; Name : {Nachname} {Vorname} ; Geburtsdatum : {GebDatum.ToString("yyyy-MM-dd")} " +
+            $"Email : {Email} - Telefon: {Telefonnummer} Adress {Adress.StrasseMitHausnummer} {Adress.Plz} {Adress.Ort}";
 
 
-        public void displayInfo(PrivateKunde k)
+        public void displayInfo()
         {
-            Console.WriteLine(k.Kundennummer + " - " + k.Nachname + " " + k.Vorname + " " + k.Telefonnummer
-                + " " + k.Email + " " + k.Adress);
+            Console.WriteLine(ToString());
+        }
+
+        public static void displayName(PrivateKunde k)
+        {
+            Console.WriteLine(k.Nachname);
         }
     }
 }

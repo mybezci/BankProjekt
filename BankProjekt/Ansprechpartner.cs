@@ -14,9 +14,9 @@ namespace BankProjekt
 
         public Ansprechpartner(string vorname, string nachname, string telefonnummer)
         {
-            this.vorname = vorname;
-            this.nachname = nachname;
-            this.telefonnummer = telefonnummer;
+            this.vorname = vorname.Trim().ToUpper();
+            this.nachname = nachname.Trim().ToUpper();
+            this.telefonnummer = telefonnummer.Trim().ToUpper();
         }
 
         public string Vorname { get => vorname; set => vorname = value; }

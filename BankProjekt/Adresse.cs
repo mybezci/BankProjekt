@@ -14,9 +14,9 @@ namespace BankProjekt
 
         public Adresse(string strasseMitHausnummer, string plz, string ort)
         {
-            this.strasseMitHausnummer = strasseMitHausnummer;
-            this.plz = plz;
-            this.ort = ort;
+            this.strasseMitHausnummer = strasseMitHausnummer.Trim().ToUpper();
+            this.plz = plz.Trim().ToUpper();
+            this.ort = ort.Trim().ToUpper();
         }
 
         public string StrasseMitHausnummer { get => strasseMitHausnummer; set => strasseMitHausnummer = value; }

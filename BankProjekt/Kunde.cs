@@ -9,7 +9,6 @@ namespace BankProjekt
     public abstract class Kunde
     {
         private List<Konto> konten;
-        private List<PrivateKunde> privateKunden;
         private int kundennummer = 1;
         private string telefonnummer;
         private string email;
@@ -19,7 +18,7 @@ namespace BankProjekt
         {
             this.kundennummer = kundennummer;
             this.telefonnummer = telefonnummer;
-            this.email = email;
+            this.email = email.Trim().ToUpper();
             this.adress = adress;
         }
 

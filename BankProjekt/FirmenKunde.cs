@@ -15,7 +15,7 @@ namespace BankProjekt
         public FirmenKunde(int kundennummer, string firmenname, Ansprechpartner ansprechpartner, string telefonnummer, string email, Adresse adress) :
             base(kundennummer, telefonnummer, email, adress)
         {
-            this.firmenname = firmenname;
+            this.firmenname = firmenname.Trim().ToUpper();
             this.ansprechpartner = ansprechpartner;
         }
 
@@ -34,15 +34,14 @@ namespace BankProjekt
                 );
         }
 
-        public void displayInfo(FirmenKunde fk)
+        public void displayInfo()
         {
-            Console.WriteLine(fk.Kundennummer + " - " + fk.Firmenname + " " + fk.Telefonnummer
-                + " " + fk.Email + " " + fk.Adress);
+            Console.WriteLine(ToString());
         }
 
-        public override string ToString() => $"Firmenkunden: {Kundennummer} - {Firmenname} ;" +
-            $"{ansprechpartner.Nachname} {ansprechpartner.Vorname} {ansprechpartner.Telefonnummer}   " +
-            $"{Email} {Telefonnummer} {Adress.ToString()}";
+        public override string ToString() => $"Firmenkunden: Kundennummer : {Kundennummer} - Name : {Firmenname} ;" +
+            $"Ansprechpartner : {ansprechpartner.Nachname} {ansprechpartner.Vorname} {ansprechpartner.Telefonnummer}   " +
+            $"Email : {Email} - Telefon: {Telefonnummer} Adress {Adress.StrasseMitHausnummer} {Adress.Plz} {Adress.Ort}";
 
 
     }

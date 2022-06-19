@@ -11,10 +11,10 @@ namespace BankProjekt
     {
         private string iban = "DE";
         private double kontoStand;
+        private List<Transaktion> transaktionen;
 
-        public Konto(Kunde kunde, string iban, double kontoStand)
+        public Konto(string iban, double kontoStand)
         {
-
             this.iban = iban;
             this.kontoStand = kontoStand;
         }
@@ -24,16 +24,22 @@ namespace BankProjekt
         }
 
         public string Iban { get => iban; set => iban = value; }
-        public double KontoStand { get => kontoStand; set => kontoStand = value; }
+        public double KontoStand 
+        { 
+            get => kontoStand; 
+            set => kontoStand = kontoStand < 0 ? 0 : value; 
+        }
+        public List<Transaktion> Transaktionen { get => transaktionen; set => transaktionen = value; }
 
-
-        public Konto KontoAnlegen(Bank b, Kunde kunde)
+        public Konto KontoAnlegen(Bank b)
         {
             var rand = new Random();
             int temp = rand.Next(10000000, 99999999);
-            return new Konto(kunde, Iban + b.Bankleitzahl + temp, IO.ReadDouble("Kontostand : "));
+            return new Konto(Iban + b.Bankleitzahl + temp, IO.ReadDouble("Kontostand : "));
         }
 
         public override string ToString() => $"Iban : {Iban} -  Kontostand : {KontoStand}";
+
+
     }
 }

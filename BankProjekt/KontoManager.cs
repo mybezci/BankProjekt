@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Util;
 
 namespace BankProjekt
 {
@@ -17,9 +18,7 @@ namespace BankProjekt
                     if (item.Konten != null && item.Konten.Count >= 0)
                     {
                         foreach (Konto konto in item.Konten)
-                        {
                             Console.WriteLine("IBAN   -> " + konto.Iban + "  Kontostand    ->" + konto.KontoStand);
-                        }
                     }
                 }
                 catch (Exception)
@@ -30,31 +29,55 @@ namespace BankProjekt
             }
         }
 
-        public static void FindEinKontoDurchIban(string iban, Kunde k)
+        public static Konto FindEinKontoDurchIban(string iban, Kunde k)
         {
+            Konto konto = null;
             try
             {
-                foreach (Konto konto in k.Konten)
+                if (k.Konten != null && k.Konten.Count != 0)
                 {
-                    if (konto.Iban.Equals(iban))
+                    foreach (Konto ko in k.Konten)
                     {
-                        Console.WriteLine(konto.ToString()); 
+                        if (ko.Iban.Equals(iban))
+                            konto = ko;
+                    }
+                }
+                else
+                    throw new Exception("Kein Ergebnis   ---->");
+            }
+            catch (Exception ex)
+            {
+            }
+            return konto;
+        }
+
+        public static void FindAlleKontenEinerKundeDurchKundennummer(int kundennummer, Bank b)
+        {
+
+            try
+            {
+                if (b.Kunden != null && b.Kunden.Count != 0)
+                {
+                    int ind = b.Kunden.FindIndex(x => x.Kundennummer.Equals(kundennummer));
+                    if (ind < 0 || ind > b.Kunden.Count - 1)
+                    {
+                        Console.WriteLine("Kunde kann nicht gefunden werden!!!");
                     }
                     else
                     {
-                        Console.WriteLine("Das Konto mit dieser Iban konnte nicht gefunden werden");
+                        Console.WriteLine("Alle Konten");
+                        b.Kunden[ind].DisplayAllKontenVonUser();
                     }
                 }
             }
             catch (Exception ex)
             {
-
-                throw new Exception(ex.Message);
+                throw new Exception("");
             }
         }
 
 
-        public static void FindKontenVonPrivateKunde(string input, Bank b, PrivateKunde pk)
+        public static void FindKontenVonPrivateKunde(string input, Bank b)
         {
             try
             {
@@ -63,17 +86,13 @@ namespace BankProjekt
                     if (kunde.Konten != null && kunde.Konten.Count >= 0)
                     {
                         if (input.Equals(kunde.Kundennummer))
-                      
                         {
                             int ind = b.Kunden.FindIndex(x => x.Konten.Equals(input));
-                            Console.WriteLine("Index von PrivateKunden ->" + ind);
                             Console.WriteLine(b.Kunden[ind].ToString());
                         }
                     }
                     else
-                    {
                         Console.WriteLine("Konten ist nulllll");
-                    }
                 }
             }
             catch (Exception ex)
@@ -93,9 +112,7 @@ namespace BankProjekt
                     if (item.Konten != null && item.Konten.Count >= 0)
                     {
                         foreach (Konto konto in item.Konten)
-                        {
-                            Console.WriteLine("IBAN   -> " + konto.Iban + "  Kontostand    ->" + konto.KontoStand);
-                        }
+                            Console.WriteLine(pk.Nachname + "-" + "IBAN   -> " + konto.Iban + "  Kontostand    ->" + konto.KontoStand);
                     }
                 }
                 catch (Exception)
@@ -106,34 +123,140 @@ namespace BankProjekt
             }
         }
 
-        public static void NeuesKontoZumKunde(Bank bank, Kunde kunde, Konto konto)
+        public static bool DarfKontoAnlegen(Kunde kunde)
         {
+            bool zustand = false;
+            if (kunde != null)
+            {
+                try
+                {
+                    if (kunde.Konten == null)
+                    {
+                        kunde.Konten = new List<Konto>();
+                    }
+                    int kontoanzahl = kunde.Konten.Count;
+                    Console.WriteLine("Kunde hat " + kontoanzahl + " Konten");
 
-            //kunde.Konten = new List<Konto>();
+                    if (kontoanzahl >= 0 && kontoanzahl <= 10)
+                    {
+                        zustand = true;
+                    }
+                    else if (kontoanzahl > 10)
+                    {
+                        Console.WriteLine("man darf max 10 Konten");
+                        zustand = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Kein Konto");
+                        zustand = false;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return zustand;
+        }
+
+        public static void NeuesKontoZumKunde(Bank bank, Kunde kunde)
+        {
+            try
+            {
+                if (bank.Kunden != null && bank.Kunden.Count != 0)
+                {
+                        if (kunde.Konten == null)
+                            kunde.Konten = new List<Konto>();
+                }
+                else
+                    throw new Exception("exxxxx");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        public static void AddKontoZumKunde(Bank bank, Kunde kunde) { 
+
             if (kunde.Konten != null)
             {
                 int kontoanzahl = kunde.Konten.Count;
-                Console.WriteLine("Kontoanzahl  -> " + kontoanzahl);
+                Console.WriteLine("Kunde hat " + kontoanzahl + " Konten");
 
                 if (kontoanzahl >= 0 && kontoanzahl <= 10)
                 {
-                    konto = konto.KontoAnlegen(bank, kunde);
+                    Konto konto = null;
+                    konto = konto.KontoAnlegen(bank);
                     kunde.Konten.Add(konto);
-
                     Console.WriteLine("Konto angelegt");
                 }
                 else if (kontoanzahl > 10)
-                {
                     Console.WriteLine("man darf max 10 Konten");
-                }
                 else
-                {
                     throw new Exception("Konto Exception");
+            }
+            else
+                throw new Exception("Nulll");
+        }
+
+
+        public static void Einzahlung(Konto konto, Transaktion tra)
+        {
+            if (konto != null)
+            {
+                try
+                {
+                    Console.WriteLine("Kontostand : " + konto.KontoStand);
+                    tra.Betrag = IO.ReadDouble("Wie viel Geld wollen sie einzahlen :");
+                    if (tra.Betrag > 0 && tra.Betrag < 10000000)
+                    {
+                        konto.KontoStand += tra.Betrag;
+                        tra.Beschreibungstext = IO.ReadString("Beschreibungstext : ");
+                        Console.WriteLine("Aktuell Kontostand : " + konto.KontoStand);
+                    }
+                    else
+                        Console.WriteLine("Ungültig");
+                }
+                catch (Exception ex)
+                { 
+                    Console.WriteLine("Einzahlen Error");
+                }
+            }
+            else
+                Console.WriteLine("Kein Konten");
+        }
+
+        public static void Auszahlung(Konto konto, Transaktion tra)
+        {
+            if (konto != null)
+            {
+                try
+                {
+                    Console.WriteLine("Kontostand : " + konto.KontoStand);
+                    double betrag = IO.ReadDouble("Wie viel Geld wollen sie auszahlen :");
+                    if (betrag > 0 && betrag < konto.KontoStand)
+                    {
+                        konto.KontoStand -= betrag;
+                        tra.Beschreibungstext = IO.ReadString("Beschreibungstext : ");
+                        Console.WriteLine("Aktuell Kontostand : " + konto.KontoStand);
+                        Console.WriteLine("Aktuell Kontostand : " + konto.KontoStand);
+                    }
+                    else if (betrag < 0)
+                        Console.WriteLine("Bitte keine negative Zahl");
+                    else if (betrag > konto.KontoStand) 
+                        Console.WriteLine("Ihr Wunsch ist grösser als Ihr Kontostand");
+                    else
+                        Console.WriteLine("Ungültig");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Einzahlen Error");
                 }
             }
             else
             {
-                throw new Exception("Nulll");
+                Console.WriteLine("Kein Konten");
             }
         }
 

@@ -47,10 +47,13 @@ namespace BankProjekt
             {
                 if (b.Kunden != null && b.Kunden.Count != 0)
                 {
+                    Console.WriteLine(KontoManager.FindEinKontoDurchIban(inputIban, b.Kunden).ToString());
+/*
+
                     foreach (Kunde kunde in b.Kunden)
                     {
                         Console.WriteLine(KontoManager.FindEinKontoDurchIban(inputIban, kunde).ToString());
-                    }
+                    }*/
                 }
                 else
                 {
@@ -89,13 +92,13 @@ namespace BankProjekt
                 }
                 else
                 {
-                    Console.WriteLine("Kein Ergebnis");
+                    Console.WriteLine("Kein Ergebnis1");
                 }
 
             }
             catch (Exception)
             {
-                Console.WriteLine("Kein Ergebnis");
+                Console.WriteLine("Kein Ergebnis2");
             }
         }
 

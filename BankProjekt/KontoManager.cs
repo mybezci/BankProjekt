@@ -29,7 +29,34 @@ namespace BankProjekt
             }
         }
 
-        public static Konto FindEinKontoDurchIban(string iban, Kunde k)
+        public static Konto FindEinKontoDurchIban(string iban, List<Kunde> kunden)
+        {
+
+            Konto konto = null;
+            try
+            {
+                foreach (Kunde kunde in kunden) { 
+
+                    if (kunde.Konten != null && kunde.Konten.Count != 0)
+                    {
+                        foreach (Konto ko in kunde.Konten)
+                        {
+                            if (ko.Iban.Equals(iban))
+                                konto = ko;
+                        }
+                    }
+                    else
+                        throw new Exception("Kein Ergebnis   ---->");
+                    }
+            }
+            catch (Exception)
+            {
+            }
+            return konto;
+        }
+
+
+/*        public static Konto FindEinKontoDurchIban(string iban, Kunde k)
         {
             Konto konto = null;
             try
@@ -50,7 +77,7 @@ namespace BankProjekt
             }
             return konto;
         }
-
+*/
         public static void FindAlleKontenEinerKundeDurchKundennummer(int kundennummer, Bank b)
         {
 
@@ -70,7 +97,7 @@ namespace BankProjekt
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new Exception("");
             }
@@ -218,7 +245,7 @@ namespace BankProjekt
                     else
                         Console.WriteLine("Ungültig");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 { 
                     Console.WriteLine("Einzahlen Error");
                 }
@@ -249,7 +276,7 @@ namespace BankProjekt
                     else
                         Console.WriteLine("Ungültig");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Console.WriteLine("Einzahlen Error");
                 }

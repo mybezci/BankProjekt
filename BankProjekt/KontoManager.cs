@@ -33,7 +33,7 @@ namespace BankProjekt
         {
 
             Konto konto = null;
-            try
+            if(kunden!= null)
             {
                 foreach (Kunde kunde in kunden) { 
 
@@ -46,11 +46,12 @@ namespace BankProjekt
                         }
                     }
                     else
-                        throw new Exception("Kein Ergebnis   ---->");
+                        throw new Exception("Kein Ergebnis");
                     }
             }
-            catch (Exception)
+            else
             {
+                throw new Exception("Keine Kunde");
             }
             return konto;
         }
@@ -234,12 +235,15 @@ namespace BankProjekt
             {
                 try
                 {
+                    tra.Iban = konto.Iban;
                     Console.WriteLine("Kontostand : " + konto.KontoStand);
                     tra.Betrag = IO.ReadDouble("Wie viel Geld wollen sie einzahlen :");
                     if (tra.Betrag > 0 && tra.Betrag < 10000000)
                     {
                         konto.KontoStand += tra.Betrag;
                         tra.Beschreibungstext = IO.ReadString("Beschreibungstext : ");
+                        tra.Zeitstempel = DateTime.Now;
+                        tra.Transaktionsart = Transaktionsart.Einzahlung;
                         Console.WriteLine("Aktuell Kontostand : " + konto.KontoStand);
                     }
                     else
@@ -251,8 +255,13 @@ namespace BankProjekt
                 }
             }
             else
-                Console.WriteLine("Kein Konten");
+                Console.WriteLine("Konto wurde nicht gefunden");
         }
+
+
+
+
+
 
         public static void Auszahlung(Konto konto, Transaktion tra)
         {
@@ -293,13 +302,12 @@ namespace BankProjekt
             Console.WriteLine("Transaktionen");
             foreach (Transaktion tr in k.Transaktionen)
             {
-                Console.WriteLine(tr.Beschreibungstext); ;
-                tr.ToString();
                 try
                 {
                     if (tr != null)
                     {
-                        tr.ToString();                                    
+
+                        tr.DisplayTransaktionInfo();                                    
                     }
                     else
                     {
@@ -312,6 +320,39 @@ namespace BankProjekt
                 }
 
             }
+        }
+        public static void DisplayAllTransaktionen(List<Kunde> kunden)
+        {
+
+            if (kunden != null && kunden.Count != 0)
+            {         
+                foreach (Kunde kunde in kunden)
+                {
+                    foreach (Konto konto in kunde.Konten)
+                    {
+                        foreach (Transaktion transaktion in konto.Transaktionen)
+                        {
+                            try
+                            {
+                                if (transaktion != null)
+                                {
+                                    transaktion.DisplayTransaktionInfo();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Keine Transaktion");
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                throw new Exception("Transaktion ist null");
+                            }
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine("Transaktionen");
         }
 
 

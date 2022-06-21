@@ -10,6 +10,7 @@ namespace BankProjekt
 {
     public class Transaktion
     {
+        private string iban;
         private DateTime zeitstempel;
         private Transaktionsart transaktionsart;
         private string beschreibungstext;
@@ -17,14 +18,16 @@ namespace BankProjekt
         public Transaktion()
         {
         }
-        public Transaktion(DateTime zeitstempel, Transaktionsart transaktionsart, string beschreibungstext, double betrag)
+        public Transaktion(string iban, DateTime zeitstempel, Transaktionsart transaktionsart, string beschreibungstext, double betrag)
         {
+            this.iban = iban;
             this.zeitstempel = zeitstempel;
             this.transaktionsart = transaktionsart;
             this.beschreibungstext = beschreibungstext;
             this.betrag = betrag;
         }
 
+        public string Iban { get => iban; set => iban = value; }
         public DateTime Zeitstempel { get => zeitstempel; set => zeitstempel = value; }
         public Transaktionsart Transaktionsart { get => transaktionsart; set => transaktionsart = value; }
         public string Beschreibungstext { get => beschreibungstext; set => beschreibungstext = value; }
@@ -46,26 +49,21 @@ namespace BankProjekt
             sw.Close();
         }
 
-        public Transaktion NeueTransaktionEinzahlung()
+        public Transaktion NeueTransaktion()
         {
-            return new Transaktion(DateTime.Now, new Transaktionsart(),  Beschreibungstext, Betrag);
-        }
-
-        public Transaktion NeueTransaktionAuszahlung()
-        {
-            return new Transaktion(DateTime.Now, new Transaktionsart(), Beschreibungstext, Betrag);
+            return new Transaktion(Iban, DateTime.Now, Transaktionsart, Beschreibungstext, Betrag);
         }
 
 
-        public string ToStringEinzahlung(Konto konto) => $"{konto.Iban};{zeitstempel};{transaktionsart};{beschreibungstext};{betrag}";
-        public string ToStringAuszahlung(Konto konto) => $"{konto.Iban};{zeitstempel};Auszahlung;{beschreibungstext};{betrag}";
 
-        public void DisplayTransaktionInfo(Konto konto)
+
+        public void DisplayTransaktionInfo()
         {
-            Console.WriteLine($"{konto.Iban};{zeitstempel};Einzahlung;{beschreibungstext};{betrag}");
+            Console.WriteLine(ToString());
         }
 
-        public string ToString(Konto konto) => $"{konto.Iban};{zeitstempel};{transaktionsart};{beschreibungstext};{betrag}";
+//        public string ToString(Konto konto) => $"{konto.Iban};{zeitstempel};{transaktionsart};{beschreibungstext};{betrag}";
+        public override string ToString() => $"{Iban};{Zeitstempel};{Transaktionsart};{Beschreibungstext};{Betrag}";
 
 
     }

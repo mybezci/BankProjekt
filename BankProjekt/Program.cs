@@ -141,6 +141,7 @@ namespace BankProjekt
                             Transaktion transaktion = new Transaktion();
                             KontoManager.Einzahlung(k, transaktion);
                             k.Transaktionen.Add(transaktion);
+                            b.AlleTransaktionen.Add(transaktion);
                             Console.WriteLine("Transaktion ist erfolgreich");
                         }
                         else
@@ -158,6 +159,7 @@ namespace BankProjekt
                             Transaktion transaktion2 = new Transaktion();
                             KontoManager.Auszahlung(k2, transaktion2);
                             k2.Transaktionen.Add(transaktion2);
+                            b.AlleTransaktionen.Add(transaktion2);
                             Console.WriteLine("Transaktion ist erfolgreich");
                         }
                         else
@@ -175,6 +177,7 @@ namespace BankProjekt
                     case "12":
                         string iban4 = IO.ReadString("Für die Transaktionslist, geben Sie ein IBAN : ");
                         KontoManager.DisplayAllTransaktionen(KontoManager.FindEinKontoDurchIban(iban4, b.Kunden));
+                        
                         IO.ReadString("weiter");
                         break;
 

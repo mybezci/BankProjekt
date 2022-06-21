@@ -13,6 +13,7 @@ namespace BankProjekt
         private int bankleitzahl;
         private Adresse adress;
         private List<Kunde> kunden;
+        private List<Transaktion> alleTransaktionen;
 
 
         public Bank(string name, string bic, int bankleitzahl, Adresse adress, List<Kunde> kunden)
@@ -41,7 +42,7 @@ namespace BankProjekt
 
         public Adresse Adresse { get => adress; set => adress = value; }
         public List<Kunde> Kunden { get => kunden; set => kunden = value; }
-
+        public List<Transaktion> AlleTransaktionen { get => alleTransaktionen; set => alleTransaktionen = value; }
 
         public void DisplayAllKunden()
         {

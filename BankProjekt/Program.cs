@@ -54,15 +54,17 @@ namespace BankProjekt
                     case "3":
                         int inputKundennummer = IO.ReadInteger("Um neues Konto anzulegen, bitte geben Sie Ihre Kundennummer : ");
                         Kunde suchteKunde = KundeManager.FindKundeDurchKundennummer(inputKundennummer, b);
+                        KontoManager.NeuesKontoZumKunde(b,suchteKunde);
 
-                        if (KontoManager.DarfKontoAnlegen(suchteKunde))
+
+                   /*     if (KontoManager.DarfKontoAnlegen(suchteKunde))
                         {
                             Konto konto = new Konto();
                             konto = konto.KontoAnlegen(b);
                             suchteKunde.Konten.Add(konto);
                             Console.WriteLine("Konto angelegt");
                             Console.WriteLine(konto.ToString());
-                        }
+                        }*/
 
                         IO.ReadString("weiter");
                         break;
@@ -123,48 +125,39 @@ namespace BankProjekt
                         IO.ReadString("weiter");
                         break;
 
-
-                    /*
-                     *          "(10) Geld auf Konto einzahlen" +
-                                "(11) Geld vom Konto abheben" +
-                                "(12) Transaktionsliste absteigend sortiert nach Zeitstempel anzeigen" +
-                                "(13) Transaktionsliste aufsteigend sortiert nach Zeitstempel speichern" +
-                                "(14) Transaktionsliste einlesen"
-                     * */
-
-
                     case "10":
                         string iban = IO.ReadString("Für die Einzahlung geben Sie ein IBAN : ");
                         Konto k = KontoManager.FindEinKontoDurchIban(iban, b.Kunden);
-                        if (k != null)
+                        Transaktionsmanager.AddTransaktionToList(k);
+
+/*                        if (k != null)
                         {
                             Transaktion transaktion = new Transaktion();
                             KontoManager.Einzahlung(k, transaktion);
                             k.Transaktionen.Add(transaktion);
-                            b.AlleTransaktionen.Add(transaktion);
                             Console.WriteLine("Transaktion ist erfolgreich");
                         }
                         else
                             Console.WriteLine("Keine Konto");
- 
+*/ 
                         IO.ReadString("weiter");
                         break;
-
 
                     case "11":
                         string iban2 = IO.ReadString("Für die Auszahlung geben Sie ein IBAN : ");
                         Konto k2 = KontoManager.FindEinKontoDurchIban(iban2, b.Kunden);
-                        if (k2 != null)
+                        Transaktionsmanager.AddTransaktionToList(k2);
+
+
+/*                        if (k2 != null)
                         {
                             Transaktion transaktion2 = new Transaktion();
                             KontoManager.Auszahlung(k2, transaktion2);
                             k2.Transaktionen.Add(transaktion2);
-                            b.AlleTransaktionen.Add(transaktion2);
                             Console.WriteLine("Transaktion ist erfolgreich");
                         }
                         else
-                            Console.WriteLine("Keine Konto");
-
+                            Console.WriteLine("Keine Konto");*/
 /*
                         string text2 = transaktion2.ToString();
                         string pfad2 = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
@@ -173,10 +166,9 @@ namespace BankProjekt
                         IO.ReadString("weiter");
                         break;
 
-
                     case "12":
                         string iban4 = IO.ReadString("Für die Transaktionslist, geben Sie ein IBAN : ");
-                        KontoManager.DisplayAllTransaktionen(KontoManager.FindEinKontoDurchIban(iban4, b.Kunden));
+                        Transaktionsmanager.DisplayAllTransaktionen(KontoManager.FindEinKontoDurchIban(iban4, b.Kunden));
                         
                         IO.ReadString("weiter");
                         break;
@@ -185,9 +177,9 @@ namespace BankProjekt
                     case "13":
                         string iban5 = IO.ReadString("Um die Transaktionen zu speichern, geben Sie ein IBAN : ");
                         Konto kon = (KontoManager.FindEinKontoDurchIban(iban5, b.Kunden));
-                        Console.WriteLine("HERE");
-                        var zeilen = new string[]{};
-                        var zeilen2 = new List<string>();
+                        Transaktionsmanager.WriteAllLinesToFile(kon);
+
+/*                        var zeilen2 = new List<string>();
                         foreach (Transaktion item in kon.Transaktionen)
                         {
                             zeilen2.Add(item.ToString());
@@ -196,21 +188,24 @@ namespace BankProjekt
                     //    string text = transaktion.ToStringEinzahlung(k);
                         string pfad = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
                         File.WriteAllLines(pfad,zeilen2);
-                        
+*/                        
 
 
                         IO.ReadString("weiter");
                         break;
 
                     case "14":
+                        Transaktionsmanager.ReadAllLinesFromFile();
+
+
 //                        Console.WriteLine(Transaktion.ReadLineFromFile(@"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt"));
-                        string pfad2 = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
+/*                        string pfad2 = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
                         var allLines = File.ReadAllLines(pfad2);
                         foreach (var line in allLines)
                         {
                             Console.WriteLine("line -> " + line.ToString());
                         }
-
+*/
                         IO.ReadString("weiter");
                         break;
 

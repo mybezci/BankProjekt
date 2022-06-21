@@ -190,7 +190,19 @@ namespace BankProjekt
 
         public static void NeuesKontoZumKunde(Bank bank, Kunde kunde)
         {
-            try
+            if (DarfKontoAnlegen(kunde))
+            {
+                Konto konto = new Konto();
+                konto = konto.KontoAnlegen(bank);
+                kunde.Konten.Add(konto);
+                Console.WriteLine("Konto angelegt");
+                Console.WriteLine(konto.ToString());
+            }
+            else
+                Console.WriteLine("Konto wurde nicht angelegt können");
+
+
+/*            try
             {
                 if (bank.Kunden != null && bank.Kunden.Count != 0)
                 {
@@ -204,6 +216,10 @@ namespace BankProjekt
             {
                 Console.WriteLine(ex.Message);
             }
+*/
+
+
+
         }
         public static void AddKontoZumKunde(Bank bank, Kunde kunde) { 
 
@@ -228,133 +244,7 @@ namespace BankProjekt
                 throw new Exception("Nulll");
         }
 
-
-        public static void Einzahlung(Konto konto, Transaktion tra)
-        {
-            if (konto != null)
-            {
-                try
-                {
-                    tra.Iban = konto.Iban;
-                    Console.WriteLine("Kontostand : " + konto.KontoStand);
-                    tra.Betrag = IO.ReadDouble("Wie viel Geld wollen sie einzahlen :");
-                    if (tra.Betrag > 0 && tra.Betrag < 10000000)
-                    {
-                        konto.KontoStand += tra.Betrag;
-                        tra.Beschreibungstext = IO.ReadString("Beschreibungstext : ");
-                        tra.Zeitstempel = DateTime.Now;
-                        tra.Transaktionsart = Transaktionsart.Einzahlung;
-                        Console.WriteLine("Aktuell Kontostand : " + konto.KontoStand);
-                    }
-                    else
-                        Console.WriteLine("Ungültig");
-                }
-                catch (Exception)
-                { 
-                    Console.WriteLine("Einzahlen Error");
-                }
-            }
-            else
-                Console.WriteLine("Konto wurde nicht gefunden");
-        }
-
-
-
-
-
-
-        public static void Auszahlung(Konto konto, Transaktion tra)
-        {
-            if (konto != null)
-            {
-                try
-                {
-                    Console.WriteLine("Kontostand : " + konto.KontoStand);
-                    double betrag = IO.ReadDouble("Wie viel Geld wollen sie auszahlen :");
-                    if (betrag > 0 && betrag < konto.KontoStand)
-                    {
-                        konto.KontoStand -= betrag;
-                        tra.Beschreibungstext = IO.ReadString("Beschreibungstext : ");
-                        Console.WriteLine("Aktuell Kontostand : " + konto.KontoStand);
-                        Console.WriteLine("Aktuell Kontostand : " + konto.KontoStand);
-                    }
-                    else if (betrag < 0)
-                        Console.WriteLine("Bitte keine negative Zahl");
-                    else if (betrag > konto.KontoStand) 
-                        Console.WriteLine("Ihr Wunsch ist grösser als Ihr Kontostand");
-                    else
-                        Console.WriteLine("Ungültig");
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Einzahlen Error");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Kein Konten");
-            }
-        }
-
-        public static void DisplayAllTransaktionen(Konto k)
-        {
-
-            Console.WriteLine("Transaktionen");
-            foreach (Transaktion tr in k.Transaktionen)
-            {
-                try
-                {
-                    if (tr != null)
-                    {
-
-                        tr.DisplayTransaktionInfo();                                    
-                    }
-                    else
-                    {
-                        Console.WriteLine("Keine Transaktion");
-                    }
-                }
-                catch (Exception)
-                {
-                    throw new Exception("Transaktion ist null");
-                }
-
-            }
-        }
-        public static void DisplayAllTransaktionen(List<Kunde> kunden)
-        {
-
-            if (kunden != null && kunden.Count != 0)
-            {         
-                foreach (Kunde kunde in kunden)
-                {
-                    foreach (Konto konto in kunde.Konten)
-                    {
-                        foreach (Transaktion transaktion in konto.Transaktionen)
-                        {
-                            try
-                            {
-                                if (transaktion != null)
-                                {
-                                    transaktion.DisplayTransaktionInfo();
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Keine Transaktion");
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                throw new Exception("Transaktion ist null");
-                            }
-                        }
-                    }
-                }
-            }
-
-            Console.WriteLine("Transaktionen");
-        }
-
+       
 
     }
 }

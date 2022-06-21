@@ -13,10 +13,12 @@ namespace BankProjekt
         private double kontoStand;
         private List<Transaktion> transaktionen;
 
-        public Konto(string iban, double kontoStand)
+        public Konto(string iban, double kontoStand, List<Transaktion> transaktionen)
         {
             this.iban = iban;
             this.kontoStand = kontoStand;
+            this.transaktionen = transaktionen;
+
         }
 
         public Konto()
@@ -35,7 +37,7 @@ namespace BankProjekt
         {
             var rand = new Random();
             int temp = rand.Next(10000000, 99999999);
-            return new Konto(Iban + b.Bankleitzahl + temp, IO.ReadDouble("Kontostand : "));
+            return new Konto(Iban + b.Bankleitzahl + temp, IO.ReadDouble("Kontostand : "), new List<Transaktion>());
         }
 
         public override string ToString() => $"Iban : {Iban} -  Kontostand : {KontoStand}";

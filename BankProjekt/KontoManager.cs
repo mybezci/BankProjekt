@@ -287,6 +287,33 @@ namespace BankProjekt
             }
         }
 
+        public static void DisplayAllTransaktionen(Konto k)
+        {
+
+            Console.WriteLine("Transaktionen");
+            foreach (Transaktion tr in k.Transaktionen)
+            {
+                Console.WriteLine(tr.Beschreibungstext); ;
+                tr.ToString();
+                try
+                {
+                    if (tr != null)
+                    {
+                        tr.ToString();                                    
+                    }
+                    else
+                    {
+                        Console.WriteLine("Keine Transaktion");
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Transaktion ist null");
+                }
+
+            }
+        }
+
 
     }
 }

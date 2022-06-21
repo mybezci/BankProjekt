@@ -140,61 +140,61 @@ namespace BankProjekt
                         KontoManager.Einzahlung(k, transaktion);
                         Console.WriteLine("transaktion.ToString()" + transaktion.ToStringEinzahlung(k));
 
-
-                        if (k.Transaktionen.Equals(null) || k.Transaktionen.Count == 0)
-                        {
-                            new List<Transaktion>();
-                        }
                         k.Transaktionen.Add(transaktion);
-                        k.Transaktionen[0].ToString();
+ 
 
-
-/*                        foreach (Kunde kunde in b.Kunden)
-                        {
-                            Konto konto = KontoManager.FindEinKontoDurchIban(iban, kunde);
-                            Transaktion transaktion = new Transaktion();
-                            transaktion = transaktion.NeueTransaktionEinzahlung();
-                            KontoManager.Einzahlung(konto,transaktion);
-*//*                            if (konto.Transaktionen.Equals(null))
-                            {
-                                konto.Transaktionen = new List<Transaktion>();
-                            }*//*
-//                            konto.Transaktionen.Add(transaktion);
-                            string text = transaktion.ToStringEinzahlung(konto);
-                            string pfad = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
-                            Transaktion.WriteTransaktionToFile(text,pfad);
-                        }*/
-
-IO.ReadString("weiter");
+                        IO.ReadString("weiter");
                         break;
+
 
                     case "11":
-                        iban = IO.ReadString("Für die Auszahlung geben Sie ein IBAN : ");
-/*                        foreach (Kunde kunde in b.Kunden)
+                        string iban2 = IO.ReadString("Für die Auszahlung geben Sie ein IBAN : ");
+                        Konto k2 = KontoManager.FindEinKontoDurchIban(iban2, b.Kunden);
+                        Console.WriteLine(k2.ToString());
+                        Transaktion transaktion2 = new Transaktion();
+                        KontoManager.Auszahlung(k2, transaktion2);
+                        Console.WriteLine("transaktion.ToString()" + transaktion2.ToStringAuszahlung(k2));
+
+
+                        /*                        if (k.Transaktionen.Equals(null) || k.Transaktionen.Count == 0)
+                                                {
+                                                    new List<Transaktion>();
+                                                }*/
+                        k2.Transaktionen.Add(transaktion2);
+                        foreach (Transaktion transaktion1 in k2.Transaktionen)
                         {
-                            Konto newKonto = KontoManager.FindEinKontoDurchIban(iban, kunde);
-                            Transaktion transaktion = new Transaktion();
-                            transaktion = transaktion.NeueTransaktionAuszahlung();
-                            KontoManager.Auszahlung(konto, transaktion);
-                            *//*                            if (konto.Transaktionen.Equals(null))
-                                                        {
-                                                            konto.Transaktionen = new List<Transaktion>();
-                                                        }*//*
-                            //                            konto.Transaktionen.Add(transaktion);
-                            string text = transaktion.ToStringAuszahlung(konto);
-                            string pfad = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
-                            Transaktion.WriteTransaktionToFile(text, pfad);
-                        }*/
+                            Console.WriteLine(transaktion1.Beschreibungstext);
+                        }
+                        Console.WriteLine("HERE");
+                        string text2 = transaktion2.ToStringAuszahlung(k2);
+                        string pfad2 = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
+                        Transaktion.WriteTransaktionToFile(text2, pfad2);
                         IO.ReadString("weiter");
                         break;
+
 
                     case "12":
-                        KontoManager.DisplayAllKonten(b);
+                        string iban4 = IO.ReadString("Für die Transaktionslist, geben Sie ein IBAN : ");
+                        KontoManager.DisplayAllTransaktionen(KontoManager.FindEinKontoDurchIban(iban4, b.Kunden));
                         IO.ReadString("weiter");
                         break;
 
+
                     case "13":
-                 
+                        string iban5 = IO.ReadString("Um die Transaktionen zu speichern, geben Sie ein IBAN : ");
+                        Konto kon = (KontoManager.FindEinKontoDurchIban(iban5, b.Kunden));
+                        Console.WriteLine("HERE");
+                        var zeilen = new string[]{};
+                        foreach (Transaktion item in kon.Transaktionen)
+                        {
+                            Console.WriteLine(item.ToString());
+                           
+                        }
+                    //    string text = transaktion.ToStringEinzahlung(k);
+                        string pfad = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
+                    //    Transaktion.WriteTransaktionToFile(text, pfad);
+
+
                         IO.ReadString("weiter");
                         break;
 

@@ -29,7 +29,7 @@ namespace BankProjekt
         public double KontoStand 
         { 
             get => kontoStand; 
-            set => kontoStand = kontoStand < 0 ? 0 : value; 
+            set => kontoStand = value; 
         }
         public List<Transaktion> Transaktionen { get => transaktionen; set => transaktionen = value; }
 

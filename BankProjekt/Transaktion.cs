@@ -15,9 +15,7 @@ namespace BankProjekt
         private Transaktionsart transaktionsart;
         private string beschreibungstext;
         private double betrag;
-        public Transaktion()
-        {
-        }
+
         public Transaktion(string iban, DateTime zeitstempel, Transaktionsart transaktionsart, string beschreibungstext, double betrag)
         {
             this.iban = iban;
@@ -33,38 +31,17 @@ namespace BankProjekt
         public string Beschreibungstext { get => beschreibungstext; set => beschreibungstext = value; }
         public double Betrag { get => betrag; set => betrag = value; }
 
-        public static string ReadLineFromFile(string pfad)
-        {
-            StreamReader sr = File.OpenText(pfad);
-            string str = sr.ReadLine();
-            sr.Close(); 
-            return str;
-        }
-        public static void WriteTransaktionToFile(string text, string pfad)
-        {
-            StreamWriter sw = File.CreateText(pfad);
-            sw.WriteLine(text);
-            sw.Flush();
-            Console.WriteLine("Transaktion is saved into file : " + sw.ToString());
-            sw.Close();
-        }
-
         public Transaktion NeueTransaktion()
         {
             return new Transaktion(Iban, DateTime.Now, Transaktionsart, Beschreibungstext, Betrag);
         }
-
-
-
 
         public void DisplayTransaktionInfo()
         {
             Console.WriteLine(ToString());
         }
 
-//        public string ToString(Konto konto) => $"{konto.Iban};{zeitstempel};{transaktionsart};{beschreibungstext};{betrag}";
         public override string ToString() => $"{Iban};{Zeitstempel};{Transaktionsart};{Beschreibungstext};{Betrag}";
-
 
     }
 

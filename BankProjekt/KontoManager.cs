@@ -11,19 +11,21 @@ namespace BankProjekt
     {
         public static void DisplayAllKonten(Bank b)
         {
-            foreach (Kunde item in b.Kunden)
+            if (b.Kunden != null && b.Kunden.Count != 0)
             {
-                try
+                foreach (Kunde item in b.Kunden)
                 {
-                    if (item.Konten != null && item.Konten.Count >= 0)
+                    try
                     {
-                        foreach (Konto konto in item.Konten)
-                            Console.WriteLine("IBAN   -> " + konto.Iban + "  Kontostand    ->" + konto.KontoStand);
+                        if (item.Konten != null && item.Konten.Count >= 0)
+                        {
+                            foreach (Konto konto in item.Konten)
+                                Console.WriteLine("IBAN   -> " + konto.Iban + "  Kontostand    ->" + konto.KontoStand);
+                        }
                     }
-                }
-                catch (Exception)
-                {
-                    throw new Exception("Konten ist null");
+                    catch (Exception)
+                    {
+                    }
                 }
 
             }
@@ -46,40 +48,18 @@ namespace BankProjekt
                         }
                     }
                     else
-                        Console.WriteLine("Keine Ergebnis");
+                    {
+                    }
                 }
             }
             else
             {
-                Console.WriteLine("Keine Kunde");
-
             }
             return konto;
         }
 
 
-/*        public static Konto FindEinKontoDurchIban(string iban, Kunde k)
-        {
-            Konto konto = null;
-            try
-            {
-                if (k.Konten != null && k.Konten.Count != 0)
-                {
-                    foreach (Konto ko in k.Konten)
-                    {
-                        if (ko.Iban.Equals(iban))
-                            konto = ko;
-                    }
-                }
-                else
-                    throw new Exception("Kein Ergebnis   ---->");
-            }
-            catch (Exception ex)
-            {
-            }
-            return konto;
-        }
-*/
+
         public static void FindAlleKontenEinerKundeDurchKundennummer(int kundennummer, Bank b)
         {
 
@@ -90,43 +70,76 @@ namespace BankProjekt
                     int ind = b.Kunden.FindIndex(x => x.Kundennummer.Equals(kundennummer));
                     if (ind < 0 || ind > b.Kunden.Count - 1)
                     {
-                        Console.WriteLine("Kunde kann nicht gefunden werden!!!");
+                        Console.WriteLine("Kunde wurde nicht gefunden!!!");
                     }
                     else
                     {
                         Console.WriteLine("Alle Konten");
-                        b.Kunden[ind].DisplayAllKontenVonUser();
+                        DisplayAllKontenVonUser(b.Kunden[ind]);
                     }
+                }
+                else
+                {
+                    Console.WriteLine("Keine Kunde");
                 }
             }
             catch (Exception)
             {
-                throw new Exception("");
             }
         }
 
+
+
+        public static void DisplayAllKontenVonUser(Kunde k)
+        {
+            try
+            {
+                if (k.Konten != null && k.Konten.Count >= 0)
+                {
+                    foreach (Konto konto in k.Konten)
+                    {
+                        Console.WriteLine("IBAN   -> " + konto.Iban + "  Kontostand    ->" + konto.KontoStand);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Kein Konto");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
 
         public static void FindKontenVonPrivateKunde(string input, Bank b)
         {
             try
             {
-                foreach (PrivateKunde kunde in b.Kunden)
+                if (b.Kunden!= null && b.Kunden.Count != 0)
                 {
-                    if (kunde.Konten != null && kunde.Konten.Count >= 0)
+                    foreach (PrivateKunde kunde in b.Kunden)
                     {
-                        if (input.Equals(kunde.Kundennummer))
+                        if (kunde.Konten != null && kunde.Konten.Count >= 0)
                         {
-                            int ind = b.Kunden.FindIndex(x => x.Konten.Equals(input));
-                            Console.WriteLine(b.Kunden[ind].ToString());
+                            if (input.Equals(kunde.Kundennummer))
+                            {
+                                int ind = b.Kunden.FindIndex(x => x.Konten.Equals(input));
+                                Console.WriteLine(b.Kunden[ind].ToString());
+                            }
                         }
+                        else
+                            Console.WriteLine("Kein Konto");
                     }
-                    else
-                        Console.WriteLine("Konten ist nulllll");
+                }
+                else
+                {
+                    Console.WriteLine("Keine Kunde");
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception (ex.Message);
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -134,25 +147,28 @@ namespace BankProjekt
 
         public static void DisplayKontenVonPrivateKunden(Bank b, PrivateKunde pk)
         {
-            foreach (PrivateKunde item in b.Kunden)
+            if (b.Kunden != null && b.Kunden.Count != 0)
             {
-                try
+                foreach (PrivateKunde item in b.Kunden)
                 {
-                    if (item.Konten != null && item.Konten.Count >= 0)
+                    try
                     {
-                        foreach (Konto konto in item.Konten)
-                            Console.WriteLine(pk.Nachname + "-" + "IBAN   -> " + konto.Iban + "  Kontostand    ->" + konto.KontoStand);
+                        if (item.Konten != null && item.Konten.Count >= 0)
+                        {
+                            foreach (Konto konto in item.Konten)
+                                Console.WriteLine(pk.Nachname + "-" + "IBAN   -> " + konto.Iban + "  Kontostand    ->" + konto.KontoStand);
+                        }
                     }
-                }
-                catch (Exception)
-                {
-                    throw new Exception("Konten ist null");
-                }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Konten ist null");
+                    }
 
+                }
             }
         }
 
-        public static bool DarfKontoAnlegen(Kunde kunde)
+        private static bool DarfKontoAnlegen(Kunde kunde)
         {
             bool zustand = false;
             if (kunde != null)
@@ -183,7 +199,6 @@ namespace BankProjekt
                 }
                 catch (Exception)
                 {
-                    throw;
                 }
             }
             return zustand;
@@ -200,25 +215,7 @@ namespace BankProjekt
                 Console.WriteLine(konto.ToString());
             }
             else
-                Console.WriteLine("Konto wurde nicht angelegt können");
-
-
-/*            try
-            {
-                if (bank.Kunden != null && bank.Kunden.Count != 0)
-                {
-                        if (kunde.Konten == null)
-                            kunde.Konten = new List<Konto>();
-                }
-                else
-                    throw new Exception("exxxxx");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-*/
-
+                Console.WriteLine("Falsche Eingabe");
 
 
         }
@@ -239,13 +236,10 @@ namespace BankProjekt
                 else if (kontoanzahl > 10)
                     Console.WriteLine("man darf max 10 Konten");
                 else
-                    throw new Exception("Konto Exception");
+                    throw new Exception("Konto wurde nicht angelegt");
             }
             else
-                throw new Exception("Nulll");
+                Console.WriteLine("Kein Konto gefunden");
         }
-
-       
-
     }
 }

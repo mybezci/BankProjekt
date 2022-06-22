@@ -8,7 +8,7 @@ namespace BankProjekt
 {
     public abstract class Kunde
     {
-        private List<Konto> konten;
+        private List<Konto> konten = new List<Konto>();
         private int kundennummer = 1;
         private string telefonnummer;
         private string email;
@@ -23,40 +23,11 @@ namespace BankProjekt
         }
 
 
-
         public List<Konto> Konten { get => konten; set => konten = value; }
         public int Kundennummer { get => kundennummer; set => kundennummer = value; }
         public string Telefonnummer { get => telefonnummer; set => telefonnummer = value; }
         public string Email { get => email; set => email = value; }
         public Adresse Adress { get => adress; set => adress = value; }
-
-
-
-
-        public void DisplayAllKontenVonUser()
-        {
-
-            try
-            {
-                if (Konten != null && Konten.Count >= 0)
-                {
-                    foreach (Konto konto in Konten)
-                    {
-                        Console.WriteLine("IBAN   -> " + konto.Iban + "  Kontostand    ->" + konto.KontoStand);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Kein Konto");
-                }
-
-            }
-            catch (Exception)
-            {
-                throw new Exception("Konten ist null");
-
-            }
-        }
 
     }
 }

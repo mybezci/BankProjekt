@@ -10,56 +10,49 @@ namespace BankProjekt
 {
     public static class Transaktionsmanager
     {
-        public static void AddTransaktionToList(Konto k)
+        public static void AddTransaktionToList(Konto k, Transaktion transaktion)
         {
-            if (k != null)
+            if (k != null && k.Transaktionen != null)
             {
-                Transaktion transaktion = new Transaktion();
-                Einzahlung(k, transaktion);
                 k.Transaktionen.Add(transaktion);
+                Console.WriteLine("Aktuell Kontostand : " + k.KontoStand);
                 Console.WriteLine("Transaktion ist erfolgreich");
             }
             else
-                Console.WriteLine("Keine Konto");
+                Console.WriteLine("Transaktion ist nicht erfolgreich");
 
         }
 
 
-        public static void Einzahlung(Konto konto, Transaktion tra)
+
+
+        public static Transaktion Einzahlung(Konto konto)
         {
             if (konto != null)
             {
                 try
                 {
-                    tra.Iban = konto.Iban;
                     Console.WriteLine("Kontostand : " + konto.KontoStand);
-                    tra.Betrag = IO.ReadDouble("Wie viel Geld wollen sie einzahlen :");
-                    if (tra.Betrag > 0 && tra.Betrag < 10000000)
+                    double betrag = IO.ReadDouble("Wie viel Geld wollen sie einzahlen : ");
+                    
+                    if (betrag > 0 && betrag < 10000000)
                     {
-                        konto.KontoStand += tra.Betrag;
-                        tra.Beschreibungstext = IO.ReadString("Beschreibungstext : ");
-                        tra.Zeitstempel = DateTime.Now;
-                        tra.Transaktionsart = Transaktionsart.Einzahlung;
-                        Console.WriteLine("Aktuell Kontostand : " + konto.KontoStand);
+                        konto.KontoStand += betrag;
+                        return new Transaktion(konto.Iban,DateTime.Now,Transaktionsart.Einzahlung,IO.ReadString("Beschreibungstext : "),betrag);
                     }
                     else
-                        Console.WriteLine("Ungültig");
+                        Console.WriteLine("Ungültige Eingabe");
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Einzahlen Error");
                 }
             }
-            else
-                Console.WriteLine("Konto wurde nicht gefunden");
+            
+
+            return null;
         }
 
-
-
-
-
-
-        public static void Auszahlung(Konto konto, Transaktion tra)
+        public static Transaktion Auszahlung(Konto konto)
         {
             if (konto != null)
             {
@@ -67,12 +60,11 @@ namespace BankProjekt
                 {
                     Console.WriteLine("Kontostand : " + konto.KontoStand);
                     double betrag = IO.ReadDouble("Wie viel Geld wollen sie auszahlen :");
+
                     if (betrag > 0 && betrag < konto.KontoStand)
                     {
                         konto.KontoStand -= betrag;
-                        tra.Beschreibungstext = IO.ReadString("Beschreibungstext : ");
-                        Console.WriteLine("Aktuell Kontostand : " + konto.KontoStand);
-                        Console.WriteLine("Aktuell Kontostand : " + konto.KontoStand);
+                        return new Transaktion(konto.Iban, DateTime.Now, Transaktionsart.Auszahlung, IO.ReadString("Beschreibungstext : "), betrag);
                     }
                     else if (betrag < 0)
                         Console.WriteLine("Bitte keine negative Zahl");
@@ -80,22 +72,22 @@ namespace BankProjekt
                         Console.WriteLine("Ihr Wunsch ist grösser als Ihr Kontostand");
                     else
                         Console.WriteLine("Ungültig");
+
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Einzahlen Error");
                 }
             }
             else
-            {
-                Console.WriteLine("Kein Konten");
-            }
+                Console.WriteLine("Konto wurde nicht gefunden");
+            return null;
         }
+
 
         public static void DisplayAllTransaktionen(Konto k)
         {
             Console.WriteLine("Transaktionen");
-            if (!k.Equals(null))
+            if (k != null && k.Transaktionen != null)
             {
                 foreach (Transaktion tr in k.Transaktionen)
                 {
@@ -105,16 +97,16 @@ namespace BankProjekt
                         {
                             tr.DisplayTransaktionInfo();
                         }
-                        else
-                        {
-                            Console.WriteLine("Keine Transaktion");
-                        }
                     }
                     catch (Exception)
                     {
                         Console.WriteLine("Transaktion ist null");
                     }
                 }
+            }
+            else
+            {
+                Console.WriteLine("Keine Transaktion");
             }
         }
 
@@ -148,6 +140,10 @@ namespace BankProjekt
                     }
                 }
             }
+            else
+            {
+                Console.WriteLine("Kein Ergebnis");
+            }
         }
 
 
@@ -155,16 +151,34 @@ namespace BankProjekt
         {
             if (k !=null)
             {
-                var zeilen2 = new List<string>();
+                Console.WriteLine("vor var");
+                var zeilen = new List<string>();
+                Console.WriteLine("nach var");
                 if (k.Transaktionen != null && k.Transaktionen.Count != 0)
                 {
+                    Console.WriteLine("in if");
                     foreach (Transaktion item in k.Transaktionen)
                     {
-                        zeilen2.Add(item.ToString());
+                        zeilen.Add(item.ToString());
 
                     }
-                    string pfad = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
-                    File.WriteAllLines(pfad, zeilen2);
+                    string pfad = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.csv";
+
+                    Console.WriteLine("File exist " + !File.Exists(pfad));
+/*                    if (!File.Exists(pfad))
+                    {
+                        string titel = "titel";
+                        StreamWriter sw = File.CreateText(pfad);
+                        sw.WriteLine(titel);
+                        sw.Flush();
+                        Console.WriteLine("Transaktion is saved into file : " + sw.ToString());
+                        sw.Close();
+                    }*/
+
+                    
+                    File.WriteAllLines(pfad, zeilen);
+                    var message =(File.Exists(pfad)) ? "Datei gibt es bereits im System" : "Datei existiert noch nicht";
+                    Console.WriteLine(message);
                 }
                 else
                 {
@@ -180,12 +194,35 @@ namespace BankProjekt
 
         public static void ReadAllLinesFromFile()
         {
-            string pfad2 = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
-            var allLines = File.ReadAllLines(pfad2);
-            foreach (var line in allLines)
+            string pfad2 = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.csv";
+            if (File.Exists(pfad2))
             {
-                Console.WriteLine("line -> " + line.ToString());
+                var allLines = File.ReadAllLines(pfad2);
+                foreach (var line in allLines)
+                {
+                    Console.WriteLine("line -> " + line.ToString());
+                }
             }
+            else
+            {
+                Console.WriteLine("Es gibt kein Datei");
+            }
+        }
+
+        public static string ReadLineFromFile(string pfad)
+        {
+            StreamReader sr = File.OpenText(pfad);
+            string str = sr.ReadLine();
+            sr.Close();
+            return str;
+        }
+        public static void WriteTransaktionToFile(string text, string pfad)
+        {
+            StreamWriter sw = File.CreateText(pfad);
+            sw.WriteLine(text);
+            sw.Flush();
+            Console.WriteLine("Transaktion is saved into file : " + sw.ToString());
+            sw.Close();
         }
     }
 }

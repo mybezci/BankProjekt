@@ -22,7 +22,6 @@ namespace BankProjekt
                     if (ind < 0 || ind > bank.Kunden.Count - 1)
                     {
                         kunde = null;
-                        Console.WriteLine("Kunde kann nicht gefunden werden!!!");
                     }
                     else
                     {
@@ -32,7 +31,6 @@ namespace BankProjekt
                 }
                 else
                 {
-                    Console.WriteLine("Falsche Kundennummer");
                 }
             }
             catch (Exception)
@@ -48,12 +46,6 @@ namespace BankProjekt
                 if (b.Kunden != null && b.Kunden.Count != 0)
                 {
                     Console.WriteLine(KontoManager.FindEinKontoDurchIban(inputIban, b.Kunden).ToString());
-/*
-
-                    foreach (Kunde kunde in b.Kunden)
-                    {
-                        Console.WriteLine(KontoManager.FindEinKontoDurchIban(inputIban, kunde).ToString());
-                    }*/
                 }
                 else
                 {
@@ -98,7 +90,7 @@ namespace BankProjekt
             }
             catch (Exception)
             {
-                Console.WriteLine("Kein Ergebnis2");
+                Console.WriteLine("Kein Ergebnis");
             }
         }
 
@@ -113,9 +105,12 @@ namespace BankProjekt
                         if (kunde.Firmenname.Equals(name.Trim().ToUpper()))
                         {
                             Console.WriteLine("Konten von " + kunde.Firmenname);
-                            foreach (Konto konto in kunde.Konten)
+                            if (kunde.Konten != null && kunde.Konten.Count != 0)
                             {
-                                Console.WriteLine(konto.ToString());
+                                foreach (Konto konto in kunde.Konten)
+                                {
+                                    Console.WriteLine(konto.ToString());
+                                }
                             }
                         }
                         else
@@ -134,6 +129,40 @@ namespace BankProjekt
                 Console.WriteLine("Kein Ergebnis");
             }
         }
+
+
+        public static void DisplayAllKunden(Bank b)
+        {
+            if (b.Kunden != null && b.Kunden.Count != 0)
+            {
+                foreach (Kunde kunde in b.Kunden)
+                {
+                    Console.WriteLine(kunde);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Kein Kunden");
+            }
+        }
+
+
+        public static void DisplayAllKundenNachKundennummer(Bank b)
+        {
+            if (b.Kunden != null && b.Kunden.Count != 0)
+            {
+                foreach (Kunde kunde in b.Kunden)
+                {
+                    Console.WriteLine(kunde);
+                }
+    
+            }
+            else
+            {
+                Console.WriteLine("Kein Kunden");
+            }
+        }
+
 
     }
 }

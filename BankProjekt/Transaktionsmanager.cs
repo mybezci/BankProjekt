@@ -153,16 +153,23 @@ namespace BankProjekt
 
         public static void WriteAllLinesToFile(Konto k)
         {
-            if (!k.Equals(null))
+            if (k !=null)
             {
                 var zeilen2 = new List<string>();
-                foreach (Transaktion item in k.Transaktionen)
+                if (k.Transaktionen != null && k.Transaktionen.Count != 0)
                 {
-                    zeilen2.Add(item.ToString());
+                    foreach (Transaktion item in k.Transaktionen)
+                    {
+                        zeilen2.Add(item.ToString());
 
+                    }
+                    string pfad = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
+                    File.WriteAllLines(pfad, zeilen2);
                 }
-                string pfad = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.txt";
-                File.WriteAllLines(pfad, zeilen2);
+                else
+                {
+                    Console.WriteLine("Keine Transaktionen");
+                }
 
             }
             else

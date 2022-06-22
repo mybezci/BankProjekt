@@ -33,7 +33,7 @@ namespace BankProjekt
         {
 
             Konto konto = null;
-            if(kunden!= null)
+            if(kunden!= null && kunden.Count != 0)
             {
                 foreach (Kunde kunde in kunden) { 
 
@@ -46,12 +46,13 @@ namespace BankProjekt
                         }
                     }
                     else
-                        throw new Exception("Kein Ergebnis");
-                    }
+                        Console.WriteLine("Keine Ergebnis");
+                }
             }
             else
             {
-                throw new Exception("Keine Kunde");
+                Console.WriteLine("Keine Kunde");
+
             }
             return konto;
         }

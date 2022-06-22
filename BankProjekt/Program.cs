@@ -56,16 +56,6 @@ namespace BankProjekt
                         Kunde suchteKunde = KundeManager.FindKundeDurchKundennummer(inputKundennummer, b);
                         KontoManager.NeuesKontoZumKunde(b,suchteKunde);
 
-
-                   /*     if (KontoManager.DarfKontoAnlegen(suchteKunde))
-                        {
-                            Konto konto = new Konto();
-                            konto = konto.KontoAnlegen(b);
-                            suchteKunde.Konten.Add(konto);
-                            Console.WriteLine("Konto angelegt");
-                            Console.WriteLine(konto.ToString());
-                        }*/
-
                         IO.ReadString("weiter");
                         break;
 
@@ -177,6 +167,7 @@ namespace BankProjekt
                     case "13":
                         string iban5 = IO.ReadString("Um die Transaktionen zu speichern, geben Sie ein IBAN : ");
                         Konto kon = (KontoManager.FindEinKontoDurchIban(iban5, b.Kunden));
+                        Console.WriteLine("180");
                         Transaktionsmanager.WriteAllLinesToFile(kon);
 
 /*                        var zeilen2 = new List<string>();

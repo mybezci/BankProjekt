@@ -205,22 +205,58 @@ namespace Util
 
     public class PrueftInput
     {
-        public static string forString = @"^[a-zA-Z]*$";
-        public string forEmail = @"^[a-zA-Z]*$";
-        public string forTelefonnummer = @"^[a-zA-Z]*$";
-        public string forStrasse = @"^[a-zA-Z]*$";
-        public string forPlz = @"^[a-zA-Z]*$";
-        public string forDate = @"^[a-zA-Z]*$";
+        public static string forText = @"^[a-zA-Z]*$";
+        public static string messageForText = "Nur Buchstaben";
+
+        public static string forNumber = @"^(0|\+?[1-9]\d*)$";
+        public static string messageForNumber = "Nur Nummer";
+
+        public static string forDouble = @"/\(?[\d.]+\)?/";
+        public static string messageForDouble = "Nur Nummer";
+
+        public static string forEmail = @"^\S+@\S+\.\S+$";
+        public static string messageForEmail = "Ungültiges Email";
 
 
-        public static void PrueftRegex<T>(ref T input, string regexBefehle)
+        public static string forTelefon = @"^\d{5,14}$";
+        public static string messageForTelefon = "Ungültige Telefonnummer";
+
+
+        public static string forStrasse = @"^[a-zA-Z09]*$";
+        public static string messageForStrasse = "Nur Buchstaben und Nummer";
+
+
+        public static string forPlz = @"^[0-9]{5}(?:-[0-9]{4})?$";
+        public static string messageForPlz = "Ungültiges PLZ";
+
+
+        public static  string forDate = @"(0[1 - 9] |[12][0 - 9] | 3[01])[.](0[1 - 9] | 1[012])[.]\d{4} ";
+        public static string messageForDate = "Ungültige Datum Bitte tt.mm.yyyy";
+
+
+        public static bool PrueftRegex<T>(T input, string regexBefehle, string message)
         {
-            string text;
+            string text = Convert.ToString(input);
             do
             {
-                text = Convert.ToString(input);
+               //text = Convert.ToString(input);
+
+                    if (Regex.IsMatch(text, regexBefehle))
+                    {                   
+                        return true;
+                    }
+                    else
+                    {
+                       Console.WriteLine(message);
+                        return false;
+                    }
+
+
             } while (!Regex.IsMatch(text,regexBefehle));
             
         }
+
+
+
     }
 }

@@ -24,21 +24,78 @@ namespace BankProjekt
 
 
         public string Vorname { get => vorname; set => vorname = value; }
-        public string Nachname { get => nachname; set => nachname = value; }
+        public string Nachname 
+        { 
+            get => nachname; 
+            set => nachname =  value; 
+        }
         public DateTime GebDatum { get => gebDatum; set => gebDatum = value; }
 
 
         public static PrivateKunde NeuePrivateKunde(Bank b)
         {
+            string vorname;
+            do
+            {
+                vorname = IO.ReadString("Vorname: ");
+            }
+            while (!PrueftInput.PrueftRegex(vorname, PrueftInput.forText, PrueftInput.messageForText));
+
+            string nachname;
+            do
+            {
+                nachname = IO.ReadString("Nachname: ");
+            }
+            while (!PrueftInput.PrueftRegex(nachname, PrueftInput.forText, PrueftInput.messageForText));
+
+            string telefon;
+            do
+            {
+                telefon = IO.ReadString("Telefon : ");
+            }
+            while (!PrueftInput.PrueftRegex(telefon, PrueftInput.forTelefon, PrueftInput.messageForTelefon));
+
+            string email;
+            do
+            {
+                email = IO.ReadString("Email : ");
+            }
+            while (!PrueftInput.PrueftRegex(email, PrueftInput.forEmail, PrueftInput.messageForEmail));
+
+            DateTime datum = IO.ReadDate("Geburtsdatum : ");
+
+            string strasse;
+            do
+            {
+                strasse = IO.ReadString("Strasse: ");
+            }
+            while (!PrueftInput.PrueftRegex(strasse, PrueftInput.forStrasse, PrueftInput.messageForStrasse));
+
+            string plz;
+            do
+            {
+                plz = IO.ReadString("PLZ : ");
+            }
+            while (!PrueftInput.PrueftRegex(plz, PrueftInput.forPlz, PrueftInput.messageForPlz));
+
+            string ort;
+            do
+            {
+                ort = IO.ReadString("Ort : ");
+            }
+            while (!PrueftInput.PrueftRegex(ort, PrueftInput.forText, PrueftInput.messageForText));
+
+
             int kn = b.Kunden.Count;
+
             return new PrivateKunde(
                 kn + 1,
-                IO.ReadString("Kundenname: "),
-                IO.ReadString("Nachname: "),
-                IO.ReadString("Telefonnr: "),
-                IO.ReadString("Email: "),
-                IO.ReadDate("Geb. Datum: "),
-                new Adresse(IO.ReadString("Strasse: "), IO.ReadString("Plz: "), IO.ReadString("Ort: "))
+                vorname,
+                nachname,
+                telefon,
+                email,
+                datum,
+                new Adresse(strasse, plz, ort)
                 );
         }
 

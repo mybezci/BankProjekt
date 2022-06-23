@@ -9,6 +9,7 @@ namespace BankProjekt
 {
     public class PrivateKunde: Kunde
     {
+
         private string vorname;
         private string nachname;
         private DateTime gebDatum = DateTime.Now;
@@ -20,6 +21,7 @@ namespace BankProjekt
             this.nachname = nachname.Trim().ToUpper();
             this.gebDatum = gebDatum;
         }
+
 
         public string Vorname { get => vorname; set => vorname = value; }
         public string Nachname { get => nachname; set => nachname = value; }

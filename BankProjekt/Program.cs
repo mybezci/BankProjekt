@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using Util;
 
 namespace BankProjekt
@@ -199,5 +200,27 @@ namespace Util
             return d;
         }
 
+    }
+
+
+    public class PrueftInput
+    {
+        public static string forString = @"^[a-zA-Z]*$";
+        public string forEmail = @"^[a-zA-Z]*$";
+        public string forTelefonnummer = @"^[a-zA-Z]*$";
+        public string forStrasse = @"^[a-zA-Z]*$";
+        public string forPlz = @"^[a-zA-Z]*$";
+        public string forDate = @"^[a-zA-Z]*$";
+
+
+        public static void PrueftRegex<T>(ref T input, string regexBefehle)
+        {
+            string text;
+            do
+            {
+                text = Convert.ToString(input);
+            } while (!Regex.IsMatch(text,regexBefehle));
+            
+        }
     }
 }

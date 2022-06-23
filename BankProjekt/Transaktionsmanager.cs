@@ -151,34 +151,19 @@ namespace BankProjekt
         {
             if (k !=null)
             {
-                Console.WriteLine("vor var");
                 var zeilen = new List<string>();
-                Console.WriteLine("nach var");
                 if (k.Transaktionen != null && k.Transaktionen.Count != 0)
                 {
-                    Console.WriteLine("in if");
+
                     foreach (Transaktion item in k.Transaktionen)
                     {
                         zeilen.Add(item.ToString());
-
                     }
                     string pfad = @"C:\Users\Teilnehmer\source\repos\BankProjekt\BankProjekt\transaktionen.csv";
-
-                    Console.WriteLine("File exist " + !File.Exists(pfad));
-/*                    if (!File.Exists(pfad))
-                    {
-                        string titel = "titel";
-                        StreamWriter sw = File.CreateText(pfad);
-                        sw.WriteLine(titel);
-                        sw.Flush();
-                        Console.WriteLine("Transaktion is saved into file : " + sw.ToString());
-                        sw.Close();
-                    }*/
-
-                    
                     File.WriteAllLines(pfad, zeilen);
                     var message =(File.Exists(pfad)) ? "Datei gibt es bereits im System" : "Datei existiert noch nicht";
                     Console.WriteLine(message);
+                    
                 }
                 else
                 {
